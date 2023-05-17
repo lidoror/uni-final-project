@@ -37,13 +37,10 @@ stages:
                 # set env variable to allow next task to consume
                 #
                 echo "##vso[task.setvariable variable=GIT_COMMIT]${GIT_COMMIT}"
-          - task: Docker@0
-            displayName: 'BuildImage'
-            inputs:
-              action: Build an image
-              imageName: $(IMAGE_REPOSETORY)/$(IMAGE_REGISTRY):$(GIT_COMMIT)
-              dockerFile: 'bot/Dockerfile'
           
+          
+          - script: docker build -f bot/Dockerfile -t $(IMAGE_REPOSETORY)/$(IMAGE_REGISTRY):$(GIT_COMMIT)
+            displayName: ImageBuild          
 
           - task: ECRPushImage@1
             displayName: PushImage
