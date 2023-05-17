@@ -23,8 +23,7 @@ stages:
       jobs:
         - job: BuildImage
           steps:
-          - script: pwd
-          - script: ls
+
 
           - task: Bash@3
             inputs:
