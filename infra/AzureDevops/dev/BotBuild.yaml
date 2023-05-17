@@ -19,24 +19,25 @@ variables:
 
 
 stages:
-    - stage: Build Artifact
+    - stage: BuildArtifact
       jobs:
-          - job: BuildImage
-            steps:
-            - task: Docker@0
-              displayName: 'Build an image'
-              inputs:
-                action: Build an image
-                imageName: $(IMAGE_REPOSETORY)/$(IMAGE_REGISTRY):$(TAG)
-                dockerFile: 'bot/Dockerfile'
-            
+        - job: BuildImage
+          steps:
+          - task: Docker@0
+            displayName: 'BuildImage'
+            inputs:
+              action: Build an image
+              imageName: $(IMAGE_REPOSETORY)/$(IMAGE_REGISTRY):$(TAG)
+              dockerFile: 'bot/Dockerfile'
+          
 
-            - task: ECRPushImage@1
-              inputs:
-                awsCredentials: 'aws uni'
-                regionName: 'eu-north-1'
-                imageSource: 'imageid'
-                sourceImageId: '$(IMAGE_REPOSETORY)/$(IMAGE_REGISTRY):$(TAG)'
-                repositoryName: '$(IMAGE_REPOSETORY)/$(IMAGE_REGISTRY):$(TAG)'
-                pushTag: '$(TAG)'
-            
+          - task: ECRPushImage@1
+            displayName: PushImage
+            inputs:
+              awsCredentials: 'aws uni'
+              regionName: 'eu-north-1'
+              imageSource: 'imageid'
+              sourceImageId: '$(IMAGE_REPOSETORY)/$(IMAGE_REGISTRY):$(TAG)'
+              repositoryName: '$(IMAGE_REPOSETORY)/$(IMAGE_REGISTRY):$(TAG)'
+              pushTag: '$(TAG)'
+          
