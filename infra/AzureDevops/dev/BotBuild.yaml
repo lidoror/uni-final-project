@@ -24,7 +24,7 @@ stages:
         - job: BuildImage
           steps:
           - script: pwd
-          - script: echo $(pwd)
+          - script: ls
 
           - task: Bash@3
             inputs:
