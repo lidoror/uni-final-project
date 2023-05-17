@@ -24,7 +24,7 @@ stages:
         - job: BuildImage
           steps:
 
-
+          - script: cat bot/requirements.txt
           - task: Bash@3
             inputs:
               targetType: 'inline'
