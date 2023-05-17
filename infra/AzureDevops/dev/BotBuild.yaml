@@ -39,7 +39,7 @@ stages:
                 echo "##vso[task.setvariable variable=GIT_COMMIT]${GIT_COMMIT}"
           
           
-          - script: docker build -f bot/Dockerfile -t $(IMAGE_REPOSETORY)/$(IMAGE_REGISTRY):$(GIT_COMMIT)
+          - script: docker build -f bot/Dockerfile -t $(IMAGE_REPOSETORY)/$(IMAGE_REGISTRY):$(GIT_COMMIT) .
             displayName: ImageBuild          
 
           - task: ECRPushImage@1
