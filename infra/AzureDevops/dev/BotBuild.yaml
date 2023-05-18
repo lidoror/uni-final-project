@@ -7,6 +7,7 @@ trigger:
           - bot/*
           - utils.py
           - config-dev.json
+          - infra/AzureDevops/dev/*
  
 pool:
   vmImage: ubuntu-latest
@@ -14,7 +15,7 @@ pool:
 variables:
     IMAGE_REGISTRY_CONNECTION: aws uni
     IMAGE_REGISTRY: lidoror_bot_dev
-    IMAGE_REPOSETORY: 700935310038.dkr.ecr.eu-north-1.amazonaws.com
+    IMAGE_REPOSETORY: 700935310038.dkr.ecr.us-west-2.amazonaws.com
 
 
 
@@ -24,7 +25,6 @@ stages:
         - job: BuildImage
           steps:
 
-          - script: cat bot/requirements.txt
           - task: Bash@3
             inputs:
               targetType: 'inline'
