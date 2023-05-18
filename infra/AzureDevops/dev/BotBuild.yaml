@@ -47,9 +47,8 @@ stages:
             displayName: PushImage
             inputs:
               awsCredentials: 'aws uni'
-              regionName: 'eu-north-1'
+              regionName: 'us-west-2'
               imageSource: 'imageid'
               sourceImageId: '$(IMAGE_REGISTRY):$(GIT_COMMIT)'
               repositoryName: '$(IMAGE_REGISTRY)'
               pushTag: '$(GIT_COMMIT)'
-          
