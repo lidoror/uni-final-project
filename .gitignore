@@ -197,3 +197,4 @@ cython_debug/
 .terraform.lock.hcl
 /infra/terraform/ado_nodes/.terraform.lock.hcl
 /infra/terraform/ado_nodes/instances_ip
+infra/terraform/ado_nodes/.terraform/*
