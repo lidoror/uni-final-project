@@ -46,7 +46,7 @@ class Bot:
         """
         if self.current_msg.content_type != 'photo':
             raise RuntimeError(
-                f'Message content of type \'photo\' expected, but got '
+                f'Message content of type \'photo\' expected, but got'
                 f'{self.current_msg["content_type"]}')
 
         file_info = self.bot.get_file(self.current_msg.photo[quality].file_id)
