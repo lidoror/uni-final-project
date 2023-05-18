@@ -39,7 +39,7 @@ stages:
                 echo "##vso[task.setvariable variable=GIT_COMMIT]${GIT_COMMIT}"
           
           
-          - script: docker build -f bot/Dockerfile -t $(IMAGE_REPOSETORY)/$(IMAGE_REGISTRY):$(GIT_COMMIT) .
+          - script: docker build -f bot/Dockerfile -t $(IMAGE_REGISTRY):$(GIT_COMMIT) .
             displayName: ImageBuild          
 
           - task: ECRPushImage@1
@@ -47,7 +47,8 @@ stages:
             inputs:
               awsCredentials: 'aws uni'
               regionName: 'eu-north-1'
-              sourceImageId: '$(IMAGE_REPOSETORY)/$(IMAGE_REGISTRY):$(GIT_COMMIT)'
-              repositoryName: '$(IMAGE_REGISTRY)'
+              imageSource: 'imageid'
+              sourceImageId: '$(IMAGE_REGISTRY):$(GIT_COMMIT)'
+              repositoryName: '$(IMAGE_REPOSETORY)'
               pushTag: '$(GIT_COMMIT)'
           
