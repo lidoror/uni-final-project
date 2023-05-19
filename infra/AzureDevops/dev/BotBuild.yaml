@@ -1,3 +1,5 @@
+name: BotBuild
+
 trigger:
     branches:
      include:
