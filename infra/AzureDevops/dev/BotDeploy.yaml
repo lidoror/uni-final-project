@@ -1,0 +1,34 @@
+name: botDeploy 
+
+trigger: none
+
+resources:
+ pipelines:
+  - pipeline: botdep-resource
+    source: BotBuild
+    trigger:
+      branches:
+        include:
+          - dev
+
+stages:
+    - stage: Kubectl
+      jobs:
+          - job: install
+            steps:
+            
+            - task: KubectlInstaller@0
+              inputs:
+                kubectlVersion: '1.23.6'
+          
+          - job: GetKubeConfig
+            steps:
+            
+            - task: SecretsManagerGetSecret@1
+              inputs:
+                awsCredentials: 'aws uni'
+                regionName: 'us-west-2'
+                secretIdOrName: 'lidoror-kube'
+                variableName: 'KUBE'
+            
+            - script: echo $KUBE
