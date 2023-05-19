@@ -31,4 +31,4 @@ stages:
                 secretIdOrName: 'lidoror-kube'
                 variableName: 'KUBE'
             
-            - script: echo $KUBE
+            - script: echo $(KUBE)
