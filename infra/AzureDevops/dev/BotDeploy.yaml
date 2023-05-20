@@ -48,15 +48,10 @@ stages:
                                   
                   echo "GIT_COMMIT: ${GIT_COMMIT}"
                   
-                  #
-                  # set env variable to allow next task to consume
-                  #
-                  echo "##vso[task.setvariable variable=GIT_COMMIT]${GIT_COMMIT}"
+                  echo "##vso[task.setvariable variable=BOT_IMAGE_NAME]700935310038.dkr.ecr.us-west-2.amazonaws.com/lidoror_bot_dev:${GIT_COMMIT}"
 
 
             - task: PythonScript@0
-            variables:
-              BOT_IMAGE_NAME: '700935310038.dkr.ecr.us-west-2.amazonaws.com/lidoror_bot_dev:$(GIT_COMMIT)'
               inputs:
                 scriptSource: 'filePath'
                 scriptPath: 'scripts/k8s_deployment_yaml_customize.py'
