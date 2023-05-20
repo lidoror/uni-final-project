@@ -28,13 +28,6 @@ stages:
                 kubectlVersion: '1.23.6'
         
             
-            - task: SecretsManagerGetSecret@1
-              inputs:
-                awsCredentials: 'aws uni'
-                regionName: 'us-west-2'
-                secretIdOrName: 'lidoror-kube'
-                variableName: 'KUBE'
-            
             
             - task: Bash@3
               inputs:
@@ -51,5 +44,8 @@ stages:
               inputs:
                 scriptSource: 'filePath'
                 scriptPath: 'scripts/k8s_deployment_yaml_customize.py'
-            - script: echo $(KUBE) > config
-            - script: kubectl apply --kubeconfig config -f $(K8S_DEPLOYMENT_FILE) -n lidoror-ns
+            
+            
+            - script: aws eks --region eu-north-1 update-kubeconfig --name k8s-main
+
+            - script: kubectl apply -f $(K8S_DEPLOYMENT_FILE) -n lidoror-ns
