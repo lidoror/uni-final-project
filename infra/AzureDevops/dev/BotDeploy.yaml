@@ -20,16 +20,18 @@ variables:
 stages:
     - stage: Kubectl
       jobs:
-          - job: install
+          - job: Deploy
             steps:
             
             - task: KubectlInstaller@0
+              displayName: InstallKubectl
               inputs:
                 kubectlVersion: '1.23.6'
         
             
             
             - task: Bash@3
+              displayName: GitCommitEnv
               inputs:
                 targetType: 'inline'
                 script: |
@@ -41,15 +43,14 @@ stages:
 
 
             - task: PythonScript@0
+              displayName: PrepareYaml 
               inputs:
                 scriptSource: 'filePath'
                 scriptPath: 'scripts/k8s_deployment_yaml_customize.py'
             
 
-            - task: AWSCLI@1
-              inputs:
-                awsCredentials: 'aws uni'
-                regionName: 'eu-north-1'
-                awsCommand: 'aws eks --region eu-north-1 update-kubeconfig --name k8s-main'
+            - script: aws eks --region eu-north-1 update-kubeconfig --name k8s-main
+              displayName: EKSConfig
 
             - script: kubectl apply -f $(K8S_DEPLOYMENT_FILE) -n lidoror-ns
+              displayName: Apply
