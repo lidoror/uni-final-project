@@ -27,6 +27,8 @@ module "ec2_instance_ado_workers" {
 
   name = "${var.resource_alias}-ADO-${each.key}"
 
+  iam_instance_profile = aws_iam_instance_profile.ado_instance_profile.name
+
   ami                    = data.aws_ami.amazon_linux_ami.id
   instance_type          = data.aws_ec2_instance_type_offering.ec2_instance_type.id
   key_name               = data.aws_key_pair.servers_key.key_name
