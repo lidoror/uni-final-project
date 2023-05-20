@@ -11,6 +11,12 @@ resources:
         include:
           - dev
 
+
+variables:
+  APP_ENV: dev
+  K8S_DEPLOYMENT_FILE: infra/k8s/bot_to_deploy.yaml
+  K8S_YAML_TO_EDIT: infra/k8s/bot.yaml
+
 stages:
     - stage: Kubectl
       jobs:
@@ -31,4 +37,30 @@ stages:
                 secretIdOrName: 'lidoror-kube'
                 variableName: 'KUBE'
             
-            - script: echo $(KUBE)
+          - job: CreateBotYaml
+            steps:
+            
+            - task: Bash@3
+              inputs:
+                targetType: 'inline'
+                script: |
+                  GIT_COMMIT=$(git rev-parse --short HEAD)
+                                  
+                  echo "GIT_COMMIT: ${GIT_COMMIT}"
+                  
+                  #
+                  # set env variable to allow next task to consume
+                  #
+                  echo "##vso[task.setvariable variable=GIT_COMMIT]${GIT_COMMIT}"
+
+
+            - task: PythonScript@0
+            variables:
+              BOT_IMAGE_NAME: '700935310038.dkr.ecr.us-west-2.amazonaws.com/lidoror_bot_dev:$(GIT_COMMIT)'
+              inputs:
+                scriptSource: 'filePath'
+                scriptPath: 'scripts/k8s_deployment_yaml_customize.py'
+        
+          - job: DeployEKS
+            steps:
+              - script: kubectl apply --kubeconfig $(KUBE) -f $(K8S_DEPLOYMENT_FILE) -n lidoror-ns
