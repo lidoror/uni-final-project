@@ -26,9 +26,7 @@ stages:
             - task: KubectlInstaller@0
               inputs:
                 kubectlVersion: '1.23.6'
-          
-          - job: GetKubeConfig
-            steps:
+        
             
             - task: SecretsManagerGetSecret@1
               inputs:
@@ -37,8 +35,6 @@ stages:
                 secretIdOrName: 'lidoror-kube'
                 variableName: 'KUBE'
             
-          - job: CreateBotYaml
-            steps:
             
             - task: Bash@3
               inputs:
@@ -55,7 +51,5 @@ stages:
               inputs:
                 scriptSource: 'filePath'
                 scriptPath: 'scripts/k8s_deployment_yaml_customize.py'
-        
-          - job: DeployEKS
-            steps:
-              - script: kubectl apply --kubeconfig $(KUBE) -f $(K8S_DEPLOYMENT_FILE) -n lidoror-ns
+
+            - script: kubectl apply --kubeconfig $(KUBE) -f $(K8S_DEPLOYMENT_FILE) -n lidoror-ns
