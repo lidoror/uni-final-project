@@ -13,7 +13,6 @@ trigger:
 
 
 pool:
-  # vmImage: ubuntu-latest
   aws-nodes
 variables:
     IMAGE_REGISTRY_CONNECTION: aws uni
