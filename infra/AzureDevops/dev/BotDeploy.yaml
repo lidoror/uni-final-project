@@ -45,7 +45,8 @@ stages:
                 scriptSource: 'filePath'
                 scriptPath: 'scripts/k8s_deployment_yaml_customize.py'
             
-            
+            - script: aws sts get-caller-identity
+            - script: aws configure list
             - script: aws eks --region eu-north-1 update-kubeconfig --name k8s-main
 
             - script: kubectl apply -f $(K8S_DEPLOYMENT_FILE) -n lidoror-ns
