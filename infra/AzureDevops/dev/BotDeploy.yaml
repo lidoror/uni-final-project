@@ -51,5 +51,5 @@ stages:
               inputs:
                 scriptSource: 'filePath'
                 scriptPath: 'scripts/k8s_deployment_yaml_customize.py'
-
-            - script: kubectl apply --kubeconfig $(KUBE) -f $(K8S_DEPLOYMENT_FILE) -n lidoror-ns
+            - script: echo $(KUBE) > config
+            - script: kubectl apply --kubeconfig config -f $(K8S_DEPLOYMENT_FILE) -n lidoror-ns
