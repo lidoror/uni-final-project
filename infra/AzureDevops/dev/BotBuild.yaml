@@ -13,8 +13,8 @@ trigger:
 
 
 pool:
-  vmImage: ubuntu-latest
-
+  # vmImage: ubuntu-latest
+  aws-nodes
 variables:
     IMAGE_REGISTRY_CONNECTION: aws uni
     IMAGE_REGISTRY: lidoror_bot_dev
