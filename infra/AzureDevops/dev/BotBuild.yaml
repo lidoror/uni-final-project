@@ -56,8 +56,4 @@ stages:
               pushTag: '$(GIT_COMMIT)'
 
 
-          - task: PublishBuildArtifacts@1
-            inputs:
-              targetPath: '$(Build.SourcesDirectory)/variables'
-              ArtifactName: '$(IMAGE_REPOSETORY)$(IMAGE_REGISTRY):$(GIT_COMMIT)'
-              
+       
