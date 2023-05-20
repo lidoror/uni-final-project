@@ -54,3 +54,10 @@ stages:
               sourceImageId: '$(IMAGE_REGISTRY):$(GIT_COMMIT)'
               repositoryName: '$(IMAGE_REGISTRY)'
               pushTag: '$(GIT_COMMIT)'
+
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'image_name'
+              publishLocation: 'Container'
