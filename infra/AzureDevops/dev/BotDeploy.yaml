@@ -49,5 +49,12 @@ stages:
                 scriptPath: 'scripts/k8s_deployment_yaml_customize.py'
           
 
-            - script: kubectl apply -f $(K8S_DEPLOYMENT_FILE) -n lidoror-ns
-              displayName: Apply
+            - task: Kubernetes@1
+              inputs:
+                connectionType: 'Kubernetes Service Connection'
+                kubernetesServiceEndpoint: 'eks stockholm'
+                namespace: 'lidoror-ns'
+                command: 'apply'
+                arguments: '-f infra/k8s/bot_to_deploy.yaml'
+                secretType: 'dockerRegistry'
+                containerRegistryType: 'Azure Container Registry'
