@@ -53,7 +53,7 @@ stages:
               inputs:
                 connectionType: 'Kubernetes Service Connection'
                 kubernetesServiceEndpoint: 'eks stockholm'
-                namespace: 'lidoror-ns'
+                namespace: 'lidoror-ns-dev'
                 command: 'apply'
                 arguments: '-f infra/k8s/bot_to_deploy.yaml'
                 secretType: 'dockerRegistry'
