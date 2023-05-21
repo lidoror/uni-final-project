@@ -28,6 +28,14 @@ stages:
               inputs:
                 scriptSource: 'filePath'
                 scriptPath: 'scripts/k8s_deployment_yaml_customize.py'
+            
+            - script: cat infra/k8s/bot_to_deploy.yaml
+
+
+            - task: ManualValidation@0
+              inputs:
+                notifyUsers: 'lidororanim@gmail.com'
+                instructions: 'need permission before deploying to prod'
           
 
             - task: Kubernetes@1
