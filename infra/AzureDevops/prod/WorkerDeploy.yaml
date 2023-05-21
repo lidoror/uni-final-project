@@ -8,7 +8,7 @@ variables:
   APP_ENV: prod
   K8S_DEPLOYMENT_FILE: infra/k8s/worker_to_deploy.yaml
   K8S_YAML_TO_EDIT: infra/k8s/worker.yaml
-  BOT_IMAGE_NAME: '700935310038.dkr.ecr.us-west-2.amazonaws.com/lidoror_worker_prod:$(TAG)'
+  WORKER_IMAGE_NAME: '700935310038.dkr.ecr.us-west-2.amazonaws.com/lidoror_worker_prod:$(TAG)'
 
 stages:
   - stage: Kubectl
