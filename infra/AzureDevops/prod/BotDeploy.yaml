@@ -1,21 +1,14 @@
-name: botDeploy 
+name: BotDeployProd 
 
 trigger: none
 
-resources:
- pipelines:
-  - pipeline: botdep-resource
-    source: BotBuild
-    trigger:
-      branches:
-        include:
-          - dev
 
 
 variables:
-  APP_ENV: dev
+  APP_ENV: prod
   K8S_DEPLOYMENT_FILE: infra/k8s/bot_to_deploy.yaml
   K8S_YAML_TO_EDIT: infra/k8s/bot.yaml
+  BOT_IMAGE_NAME: '700935310038.dkr.ecr.us-west-2.amazonaws.com/lidoror_bot_dev:$(TAG)'
 
 stages:
     - stage: Kubectl
@@ -23,23 +16,11 @@ stages:
           - job: Deploy
             steps:
             
+
             - task: KubectlInstaller@0
               displayName: InstallKubectl
               inputs:
                 kubectlVersion: '1.23.6'
-        
-            
-            
-            - task: Bash@3
-              displayName: GitCommitEnv
-              inputs:
-                targetType: 'inline'
-                script: |
-                  GIT_COMMIT=$(git rev-parse --short HEAD)
-                                  
-                  echo "GIT_COMMIT: ${GIT_COMMIT}"
-                  
-                  echo "##vso[task.setvariable variable=BOT_IMAGE_NAME]700935310038.dkr.ecr.us-west-2.amazonaws.com/lidoror_bot_dev:${GIT_COMMIT}"
 
 
             - task: PythonScript@0
@@ -52,8 +33,8 @@ stages:
             - task: Kubernetes@1
               inputs:
                 connectionType: 'Kubernetes Service Connection'
-                kubernetesServiceEndpoint: 'eks dev'
-                namespace: 'lidoror-ns-dev'
+                kubernetesServiceEndpoint: 'eks stockholm'
+                namespace: 'lidoror-ns'
                 command: 'apply'
                 arguments: '-f infra/k8s/bot_to_deploy.yaml'
                 secretType: 'dockerRegistry'
