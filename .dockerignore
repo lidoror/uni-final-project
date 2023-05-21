@@ -65,3 +65,6 @@ pip-selfcheck.json
 .idea/
 
 infra/*
+scripts/*
+infra
+scripts

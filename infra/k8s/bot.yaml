@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bot-deployment
+  labels:
+    app: bot
+    env:
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bot
+      env:
+  template:
+    metadata:
+      labels:
+        app: bot
+        env:
+    spec:
+      containers:
+      - name: bot
+        image:
+        env:
+          - name: ENV
+            value:
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "200m"
+          limits:
+            memory: "200Mi"
+            cpu: "200m"

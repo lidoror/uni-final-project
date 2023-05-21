@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-deployment
+  labels:
+    app: bot
+    env: 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+      env:
+  template:
+    metadata:
+      labels:
+        app: worker
+        env: 
+    spec:
+      containers:
+      - name: worker
+        image: 
+        env:
+          - name: ENV
+            value: 
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "200m"
+          limits:
+            memory: "100Mi"
+            cpu: "200m"
+        
