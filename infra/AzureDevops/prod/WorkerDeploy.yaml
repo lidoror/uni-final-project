@@ -1,45 +1,26 @@
-name: WorkerDeploy
+name: WorkerDeployProd
 
 trigger: none
 
-resources:
-  pipelines:
-    - pipeline: Workerdep-resource
-      source: WorkerBuild
-      trigger:
-        branches:
-          include:
-            - dev
 
 
 variables:
-  APP_ENV: dev
+  APP_ENV: prod
   K8S_DEPLOYMENT_FILE: infra/k8s/worker_to_deploy.yaml
   K8S_YAML_TO_EDIT: infra/k8s/worker.yaml
+  BOT_IMAGE_NAME: '700935310038.dkr.ecr.us-west-2.amazonaws.com/lidoror_worker_prod:$(TAG)'
 
 stages:
   - stage: Kubectl
     jobs:
-      - job: Deploy
+      - job: PrepareToDeploy
         steps:
+
 
           - task: KubectlInstaller@0
             displayName: InstallKubectl
             inputs:
               kubectlVersion: '1.23.6'
-
-
-
-          - task: Bash@3
-            displayName: GitCommitEnv
-            inputs:
-              targetType: 'inline'
-              script: |
-                GIT_COMMIT=$(git rev-parse --short HEAD)
-                
-                echo "GIT_COMMIT: ${GIT_COMMIT}"
-                
-                echo "##vso[task.setvariable variable=WORKER_IMAGE_NAME]700935310038.dkr.ecr.us-west-2.amazonaws.com/lidoror_worker_dev:${GIT_COMMIT}"
 
 
           - task: PythonScript@0
@@ -49,11 +30,15 @@ stages:
               scriptPath: 'scripts/k8s_deployment_yaml_customize.py'
 
 
+
+          - script: cat infra/k8s/worker_to_deploy.yaml
+
+
           - task: Kubernetes@1
             inputs:
               connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'eks dev'
-              namespace: 'lidoror-ns-dev'
+              kubernetesServiceEndpoint: 'eks stockholm'
+              namespace: 'lidoror-ns'
               command: 'apply'
               arguments: '-f infra/k8s/worker_to_deploy.yaml'
               secretType: 'dockerRegistry'
