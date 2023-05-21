@@ -3,13 +3,13 @@ name: BotBuild
 trigger:
     branches:
      include:
-        - dev
+        - main
     paths:
       include:
           - bot/*
           - utils.py
-          - config-dev.json
-          - infra/AzureDevops/dev/Bot*
+          - config-prod.json
+          - infra/AzureDevops/prod/Bot*
 
 
 pool:
@@ -17,7 +17,7 @@ pool:
 
 variables:
     IMAGE_REGISTRY_CONNECTION: aws uni
-    IMAGE_REGISTRY: lidoror_bot_dev
+    IMAGE_REGISTRY: lidoror_bot_prod
     IMAGE_REPOSETORY: 700935310038.dkr.ecr.us-west-2.amazonaws.com
 
 
