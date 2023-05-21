@@ -29,34 +29,11 @@ stages:
                 scriptSource: 'filePath'
                 scriptPath: 'scripts/k8s_deployment_yaml_customize.py'
             
-            - task: PublishPipelineArtifact@1
-              displayName: PublishDeployFile
-              inputs:
-                targetPath: '$(Pipeline.Workspace)'
-                artifact: 'BotDeploy.yaml'
-                publishLocation: 'filepath'
-                fileSharePath: 'infra/k8s/bot_to_deploy.yaml'
+            
             
             - script: cat infra/k8s/bot_to_deploy.yaml
 
-          - job: 'Validation'
-            dependsOn: PrepareToDeploy
-            pool: server
-            steps:
-            - task: ManualValidation@0
-              inputs:
-                notifyUsers: 'lidororanim@gmail.com'
-                instructions: 'need permission before deploying to prod'
-          
-          - job: 'DeployEKS'
-            dependsOn: Validation
-            steps:
 
-            - task: DownloadPipelineArtifact@2
-              inputs:
-                buildType: 'current'
-                artifactName: 'BotDeploy.yaml'
-                targetPath: '$(Pipeline.Workspace)/infra/k8s'
             - task: Kubernetes@1
               inputs:
                 connectionType: 'Kubernetes Service Connection'
