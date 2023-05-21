@@ -32,18 +32,17 @@ stages:
             - script: cat infra/k8s/bot_to_deploy.yaml
 
           - job: 'Validation'
+            dependsOn: PrepareToDeploy
             pool: server
             steps:
-              
             - task: ManualValidation@0
               inputs:
                 notifyUsers: 'lidororanim@gmail.com'
                 instructions: 'need permission before deploying to prod'
           
           - job: 'DeployEKS'
-            dependsOn: PrepareToDeploy
+            dependsOn: Validation
             steps:
-              
             - task: Kubernetes@1
               inputs:
                 connectionType: 'Kubernetes Service Connection'
