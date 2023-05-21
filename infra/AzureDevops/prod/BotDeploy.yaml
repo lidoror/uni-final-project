@@ -8,12 +8,12 @@ variables:
   APP_ENV: prod
   K8S_DEPLOYMENT_FILE: infra/k8s/bot_to_deploy.yaml
   K8S_YAML_TO_EDIT: infra/k8s/bot.yaml
-  BOT_IMAGE_NAME: '700935310038.dkr.ecr.us-west-2.amazonaws.com/lidoror_bot_dev:$(TAG)'
+  BOT_IMAGE_NAME: '700935310038.dkr.ecr.us-west-2.amazonaws.com/lidoror_bot_prod:$(TAG)'
 
 stages:
     - stage: Kubectl
       jobs:
-          - job: Deploy
+          - job: PrepareToDeploy
             steps:
             
 
@@ -41,6 +41,7 @@ stages:
                 instructions: 'need permission before deploying to prod'
           
           - job: 'DeployEKS'
+            dependsOn: PrepareToDeploy
             steps:
               
             - task: Kubernetes@1
