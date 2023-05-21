@@ -29,6 +29,14 @@ stages:
                 scriptSource: 'filePath'
                 scriptPath: 'scripts/k8s_deployment_yaml_customize.py'
             
+            - task: PublishPipelineArtifact@1
+              displayName: PublishDeployFile
+              inputs:
+                targetPath: '$(Pipeline.Workspace)'
+                artifact: 'BotDeploy.yaml'
+                publishLocation: 'filepath'
+                fileSharePath: 'infra/k8s/bot_to_deploy.yaml'
+            
             - script: cat infra/k8s/bot_to_deploy.yaml
 
           - job: 'Validation'
@@ -43,12 +51,18 @@ stages:
           - job: 'DeployEKS'
             dependsOn: Validation
             steps:
+
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                buildType: 'current'
+                artifactName: 'BotDeploy.yaml'
+                targetPath: '$(Pipeline.Workspace)/infra/k8s'
             - task: Kubernetes@1
               inputs:
                 connectionType: 'Kubernetes Service Connection'
                 kubernetesServiceEndpoint: 'eks stockholm'
                 namespace: 'lidoror-ns'
                 command: 'apply'
-                arguments: '-f infra/k8s/bot_to_deploy.yaml'
+                arguments: '-f infra/k8s/BotDeploy.yaml'
                 secretType: 'dockerRegistry'
                 containerRegistryType: 'Azure Container Registry'
