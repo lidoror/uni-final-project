@@ -1,0 +1,26 @@
+name: PrTesting
+
+trigger: none
+
+pool: 
+    aws-nodes
+
+
+stages:
+    - stage: CheckingPylint
+      jobs:
+       - job: 
+         steps:
+
+           - task: PythonScript@1
+             inputs:
+               script: 'pip3 installv pylint'
+
+           - task: PythonScript@1
+             inputs:
+               script: 'python3 -m pylint -f parseable --reports=no **/*.py > pylint.log'
+
+           - task: PythonScript@1
+             inputs:
+               script: 'cat pylint.log'
+               arguments: 
