@@ -14,7 +14,7 @@ stages:
 
            - task: PythonScript@1
              inputs:
-               script: 'pip3 installv pylint'
+               script: 'pip3 install pylint'
 
            - task: PythonScript@1
              inputs:
