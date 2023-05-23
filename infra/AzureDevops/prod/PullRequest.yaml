@@ -13,6 +13,6 @@ stages:
          steps:
           - script: |
               pip3 install pylint
-              python3 -m pylint -f parseable --reports=no **/*.py > pylint.log
-              cat pylint.log 
+              python3 -m pylint -f parseable --reports=no **/*.py 
+              
             displayName: PyLintTest
