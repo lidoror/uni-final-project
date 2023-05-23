@@ -11,16 +11,8 @@ stages:
       jobs:
        - job: 
          steps:
-
-           - task: PythonScript@1
-             inputs:
-               script: 'pip3 install pylint'
-
-           - task: PythonScript@1
-             inputs:
-               script: 'python3 -m pylint -f parseable --reports=no **/*.py > pylint.log'
-
-           - task: PythonScript@1
-             inputs:
-               script: 'cat pylint.log'
-               arguments: 
+          - script: |
+              pip3 install pylint
+              python3 -m pylint -f parseable --reports=no **/*.py > pylint.log
+              cat pylint.log 
+            displayName: PyLintTest
