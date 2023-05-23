@@ -6,7 +6,6 @@ from loguru import logger
 import boto3
 import os
 
-
 class Bot:
     # this is a trial commment
     def __init__(self, token):
