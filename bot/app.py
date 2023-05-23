@@ -6,7 +6,6 @@ from loguru import logger
 import boto3
 
 
-
 class Bot:
     # this is a trial commment
     def __init__(self, token):
@@ -81,9 +80,7 @@ class YoutubeBot(Bot):
                 )
                 logger.info(f'msg {response.get("MessageId")} has been sent to queue')
 
-
-
-                self.send_text('message handled....')
+                self.send_text('message is handled....')
 
             except ClientError as error:
                 logger.error(error)
