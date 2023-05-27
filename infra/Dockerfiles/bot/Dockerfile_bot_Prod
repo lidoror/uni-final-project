@@ -2,9 +2,9 @@ FROM python:3.9-slim-buster
 
 WORKDIR /app
 
-COPY ../../../bot /bot
+COPY ./bot /bot
 
-COPY ../../../config-dev.json .
+COPY ./config-dev.json .
 
 RUN pip install -r bot/requirements.txt
 
