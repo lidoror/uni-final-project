@@ -6,7 +6,6 @@ from botocore.exceptions import ClientError
 from loguru import logger
 from utils import search_download_youtube_video
 
-
 env = os.environ['ENV']
 with open(f'config-{env}.json') as f:
     config = json.load(f)
