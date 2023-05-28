@@ -37,11 +37,9 @@ stages:
               secretIdOrName: 'lidoror-config'
               variableName: 'DEV-CONF'
           
-          - script: echo $(DEV-CONF) > file 
+          - script: echo $(DEV-CONF) > config-dev.json
             displayName: CreateConfFile
           
-          - script:  jq '.dev' file > config-dev.json
-            displayName: CreateConfFile
           - task: Bash@3
             inputs:
               targetType: 'inline'
