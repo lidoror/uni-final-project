@@ -1,0 +1,4 @@
+vsts_account_name: "YOUR_VSTS_ACCOUNT_NAME"
+agent_pool_name: "aws-nodes"
+agent_name: "node"
+pat_token: "YOUR_PAT_TOKEN"
