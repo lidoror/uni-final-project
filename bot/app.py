@@ -88,9 +88,9 @@ class YoutubeBot(Bot):
 
 
 def get_telegram_token_secret():
-    secrets_manager = boto3.client('secretsmanager', region_name=config.get('aws_region'))
+    secrets_manager = boto3.client('secretsmanager', region_name=config.get('dev').get('aws_region'))
     secret_value = secrets_manager.get_secret_value(
-        SecretId=config.get('telegram_token_secret_name')
+        SecretId=config.get('dev').get('telegram_token_secret_name')
     )
     return json.loads(secret_value['SecretString'])['telegramToken']
 
@@ -100,9 +100,9 @@ if __name__ == '__main__':
     with open(f'config-{env}.json') as f:
         config = json.load(f)
 
-    sqs = boto3.resource('sqs', region_name=config.get('aws_region'))
+    sqs = boto3.resource('sqs', region_name=config.get('dev').get('aws_region'))
     workers_queue = sqs.get_queue_by_name(
-        QueueName=config.get('bot_to_worker_queue_name')
+        QueueName=config.get('dev').get('bot_to_worker_queue_name')
     )
 
     telegram_token = get_telegram_token_secret()
