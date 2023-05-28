@@ -1,0 +1,63 @@
+---
+
+- hosts: all
+  name: create ado node
+  become: yes
+  become_user: "{{ user }}"
+  gather_facts: true
+  vars_files:
+    - vars/ado_vars.yaml
+
+  tasks:
+
+    - name: Update the system
+      yum:
+        name: '*'
+        state: latest
+
+    - name: Install git
+      yum:
+        name:
+         - git
+         - python3-pip
+         - python3-setuptools
+         - curl
+         - jq
+        state: present
+        update_cache: yes
+
+    - name: Install required packages
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+
+    - name: Set up Docker repository
+      yum_repository:
+        name: docker-ce
+        description: Docker CE Repository
+        baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+        gpgcheck: yes
+        gpgkey: https://download.docker.com/linux/centos/gpg
+        enabled: yes
+
+    - name: Install Docker
+      yum:
+        name: docker-ce
+        state: present
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add user to the docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+        state: present

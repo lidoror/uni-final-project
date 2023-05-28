@@ -1,0 +1,34 @@
+---
+
+- hosts: all
+  name: create ado node
+  become: yes
+  become_user: "{{ user }}"
+  gather_facts: true
+  vars_files:
+    - vars/ado_vars.yaml
+# sudo yum install dotnet-sdk-6.0 -y
+  tasks:
+
+    - name: Download Azure DevOps agent package
+      get_url:
+        url: "https://vstsagentpackage_url"
+        dest: "/tmp/vstsagent.tar.gz"
+
+    - name: Extract Azure DevOps agent package
+      unarchive:
+        src: "/tmp/vstsagent.tar.gz"
+        dest: "/opt/vstsagent"
+
+    - name: Configure Azure DevOps agent
+      command: |
+        /opt/vstsagent/config.sh --url https://{{ vsts_account_name }}.visualstudio.com --pool {{ agent_pool_name }} --agent {{ agent_name }} --token {{ pat_token }}
+      args:
+        chdir: /opt/vstsagent
+
+    - name: Start Azure DevOps agent service
+      systemd:
+        name: vstsagent
+        state: started
+
+
