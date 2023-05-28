@@ -1,0 +1,6 @@
+{
+  "aws_region": "us-west-2",
+  "bot_to_worker_queue_name": "lidoror-ex1-queue",
+  "telegram_token_secret_name": "lidoror-k0s-dev-t-secret",
+  "videos_bucket": "lidoror-ex1-bucket"
+}
