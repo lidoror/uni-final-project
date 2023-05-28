@@ -10,9 +10,9 @@ env = os.environ['ENV']
 with open(f'config-{env}.json') as f:
     config = json.load(f)
 
-sqs = boto3.resource('sqs', region_name=config.get('dev').get('aws_region'))
+sqs = boto3.resource('sqs', region_name=config.get('aws_region'))
 queue = sqs.get_queue_by_name(
-    QueueName=config.get('dev').get('bot_to_worker_queue_name')
+    QueueName=config.get('bot_to_worker_queue_name')
 )
 
 s3 = boto3.client("s3")
@@ -22,7 +22,7 @@ def process_msg(msg):
     videos = search_download_youtube_video(msg)
     for video in videos:
         name = video['filename']
-        s3.upload_file(name, config.get('dev').get('videos_bucket'), name)
+        s3.upload_file(name, config.get('videos_bucket'), name)
         os.remove(name)
         logger.info(f'{name} has been successfully uploaded')
 
