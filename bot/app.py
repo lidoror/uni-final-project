@@ -57,7 +57,7 @@ class Bot:
     def handle_message(self, message):
         """Bot Main message handler"""
         logger.info(f'Incoming message: {message}')
-        self.send_text(f'Your original message: {message.text}')
+        self.send_text(f'Your original message:  {message.text}')
 
 
 class QuoteBot(Bot):
