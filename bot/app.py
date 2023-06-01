@@ -1,10 +1,9 @@
-
+import os
 import json
 import telebot
 from botocore.exceptions import ClientError
 from loguru import logger
 import boto3
-import os
 
 
 class Bot:
