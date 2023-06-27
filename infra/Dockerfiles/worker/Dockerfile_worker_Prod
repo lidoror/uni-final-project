@@ -2,7 +2,7 @@ FROM python:3.9-slim-buster
 
 WORKDIR /app
 
-COPY ./worker .
+COPY ./worker/* ./worker/
 
 COPY ./utils.py .
 
